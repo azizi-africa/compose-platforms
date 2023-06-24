@@ -12,11 +12,11 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
 
-  cache:
-    container_name: cache
-    image: redis:6
-    networks:
-      - directus
+  # cache:
+  #   container_name: cache
+  #   image: redis:6
+  #   networks:
+  #     - directus
 
   directus:
     container_name: directus
@@ -36,7 +36,7 @@ services:
       - directus
       - proxy
     depends_on:
-      - cache
+      # - cache
       - database
     environment:
       KEY: ${KEY}
