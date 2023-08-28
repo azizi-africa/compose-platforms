@@ -25,7 +25,7 @@ services:
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: nginx-proxy-letsecrypt
+    container_name: nginx-letsecrypt
     restart: always
     volumes_from:
       - proxy
