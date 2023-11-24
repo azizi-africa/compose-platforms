@@ -95,8 +95,6 @@ networks:
     external: true
   dbnet:
     external: true
-  directus-proxy:
-    external: true
 
 volumes:
   directus_data:

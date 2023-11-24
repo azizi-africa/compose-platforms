@@ -3,10 +3,6 @@ version: '2'
 networks:
   proxy:
     external: true
-  directus-proxy:
-    external: true
-  metabase-proxy:
-    external: true
 
 services:
   proxy:
@@ -26,8 +22,6 @@ services:
       DHPARAM_GENERATION: ${DHPARAM_GENERATION}
     networks:
       - proxy
-      - directus-proxy
-      - metabase-proxy
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -41,5 +35,3 @@ services:
       DEFAULT_EMAIL: ${SUPPORT_EMAIL}
     networks:
       - proxy
-      - directus-proxy
-      - metabase-proxy

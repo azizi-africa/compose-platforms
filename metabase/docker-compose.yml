@@ -7,8 +7,6 @@ services:
     hostname: metabase
     volumes:
       - ./dev/random:/dev/random:ro
-    ports:
-      - 3000:3000
     environment:
       MB_DB_TYPE: postgres
       MB_DB_DBNAME: ${DB_NAME}
@@ -16,11 +14,11 @@ services:
       MB_DB_USER: ${DB_USER}
       MB_DB_PASS: ${DB_PASS}
       MB_DB_HOST: postgres
+      MB_JETTY_PORT: ${MB_PORT}
     networks:
       - default
       - proxy # for proxy
       - dbnet # for db storage
-      - metabase-proxy
     healthcheck:
       test: curl --fail -I http://localhost:3000/api/health || exit 1
       interval: 15s
@@ -45,8 +43,6 @@ networks:
   proxy:
     external: true
   dbnet:
-    external: true
-  metabase-proxy:
     external: true
 
 volumes:
