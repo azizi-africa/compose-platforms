@@ -13,22 +13,22 @@ services:
       MB_DB_PORT: ${DB_PORT}
       MB_DB_USER: ${DB_USER}
       MB_DB_PASS: ${DB_PASS}
-      MB_DB_HOST: postgres
+      MB_DB_HOST: metabase-db
       MB_JETTY_PORT: ${MB_JETTY_PORT}
     networks:
       - default
       - proxy # for proxy
       - dbnet # for db storage
     healthcheck:
-      test: curl --fail -I http://localhost:3000/api/health || exit 1
+      test: curl --fail -I http://localhost:${MB_JETTY_PORT}/api/health || exit 1
       interval: 15s
       timeout: 5s
       retries: 5
 
-  postgres:
+  metabase-db:
     image: postgres:latest
     container_name: metabase-db
-    hostname: postgres
+    hostname: metabase-db
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_DB: ${DB_NAME}
