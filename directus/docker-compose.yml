@@ -35,8 +35,7 @@ services:
       # - ./database:/directus/database
     networks:
       - directus
-      # - proxy # test without main proxy network
-      - directus-proxy
+      - proxy
     depends_on:
       # - cache
       - database
