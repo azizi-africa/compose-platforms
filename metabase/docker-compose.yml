@@ -33,6 +33,8 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_PORT: ${DB_PORT}
+      PGPORT: ${DB_PORT}
     networks:
       - default
       - dbnet # for db storage

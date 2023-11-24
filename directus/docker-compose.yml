@@ -1,7 +1,8 @@
 version: '3'
 services:
-  database:
+  directus-db:
     container_name: directus-db
+    hostname: directus-db
     image: postgis/postgis:13-master
     volumes:
       - directus_data:/var/lib/postgresql/data
@@ -12,7 +13,8 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
-      POSTGRES_DB_PORT: ${DB_PORT}
+      POSTGRES_PORT: ${DB_PORT}
+      PGPORT: ${DB_PORT}
 
   # For a single server, cache has been disabled
   # cache:
@@ -38,7 +40,7 @@ services:
       - proxy
     depends_on:
       # - cache
-      - database
+      - directus-db
     environment:
       KEY: ${KEY}
       SECRET: ${SECRET}
