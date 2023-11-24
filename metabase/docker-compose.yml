@@ -7,7 +7,6 @@ services:
     hostname: metabase
     volumes:
       - ./dev/random:/dev/random:ro
-
     ports:
       - 3000:3000
     environment:
@@ -21,6 +20,7 @@ services:
       - default
       - proxy # for proxy
       - dbnet # for db storage
+      - metabase-proxy
     healthcheck:
       test: curl --fail -I http://localhost:3000/api/health || exit 1
       interval: 15s
@@ -29,7 +29,7 @@ services:
 
   postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: metabase-db
     hostname: postgres
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -37,6 +37,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS}
     networks:
       - default
+      - dbnet # for db storage
     volumes:
       - mb_postgres_data:/var/lib/postgresql/data
 
@@ -44,6 +45,8 @@ networks:
   proxy:
     external: true
   dbnet:
+    external: true
+  metabase-proxy:
     external: true
 
 volumes:
