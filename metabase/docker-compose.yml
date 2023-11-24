@@ -14,7 +14,7 @@ services:
       MB_DB_USER: ${DB_USER}
       MB_DB_PASS: ${DB_PASS}
       MB_DB_HOST: postgres
-      MB_JETTY_PORT: ${MB_PORT}
+      MB_JETTY_PORT: ${MB_JETTY_PORT}
     networks:
       - default
       - proxy # for proxy
