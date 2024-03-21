@@ -4,6 +4,7 @@ services:
   metabase:
     image: metabase/metabase:latest
     container_name: metabase
+    restart: always
     hostname: metabase
     volumes:
       - ./dev/random:/dev/random:ro
@@ -34,6 +35,7 @@ services:
   metabase-db:
     image: postgres:latest
     container_name: metabase-db
+    restart: always
     hostname: metabase-db
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -46,7 +48,7 @@ services:
       - dbnet # for db storage
     volumes:
       - mb_postgres_data:/var/lib/postgresql/data
-    expose: 
+    expose:
       - ${DB_PORT}
 
 networks:
