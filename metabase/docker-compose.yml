@@ -4,41 +4,52 @@ services:
   metabase:
     image: metabase/metabase:latest
     container_name: metabase
+    restart: always
     hostname: metabase
     volumes:
       - ./dev/random:/dev/random:ro
-
-    ports:
-      - 3000:3000
     environment:
       MB_DB_TYPE: postgres
       MB_DB_DBNAME: ${DB_NAME}
       MB_DB_PORT: ${DB_PORT}
       MB_DB_USER: ${DB_USER}
       MB_DB_PASS: ${DB_PASS}
-      MB_DB_HOST: postgres
+      MB_DB_HOST: metabase-db
+      MB_JETTY_PORT: ${MB_JETTY_PORT}
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      VIRTUAL_PORT: ${VIRTUAL_PORT}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     networks:
       - default
       - proxy # for proxy
       - dbnet # for db storage
     healthcheck:
-      test: curl --fail -I http://localhost:3000/api/health || exit 1
+      test: curl --fail -I http://localhost:${MB_JETTY_PORT}/api/health || exit 1
       interval: 15s
       timeout: 5s
       retries: 5
+    expose:
+      - ${MB_JETTY_PORT}
 
-  postgres:
+  metabase-db:
     image: postgres:latest
-    container_name: postgres
-    hostname: postgres
+    container_name: metabase-db
+    restart: always
+    hostname: metabase-db
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_PORT: ${DB_PORT}
+      PGPORT: ${DB_PORT}
     networks:
       - default
+      - dbnet # for db storage
     volumes:
       - mb_postgres_data:/var/lib/postgresql/data
+    expose:
+      - ${DB_PORT}
 
 networks:
   proxy:
